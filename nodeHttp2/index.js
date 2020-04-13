@@ -55,6 +55,20 @@ var server = http.createServer(function (req, res) {
             return
         }
     }
+    else if (req.method === 'POST') {
+        console.log('post method')
+        let data = ''
+        res.statusCode = 201
+        req.on('data', chunk => {
+            data += chunk.toString()
+        })
+        req.on('end', () => {
+            data = JSON.parse(data)
+            console.log(data)
+            res.setHeader('content-type', 'application/json')
+            res.end(JSON.stringify(data))
+        })
+    }
     else {
         res.statusCode = 404
         res.setHeader('content-type', 'text/html')
